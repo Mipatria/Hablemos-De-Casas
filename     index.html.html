@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hablemos de Casas</title>
+  <meta name="description" content="Hablemos de Casas — connect with an agent or lender." />
+
+  <!-- Elegant, free Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #f6f4f1;
+      --panel: rgba(255, 255, 255, 0.72);
+      --panel-border: rgba(255, 255, 255, 0.5);
+      --text: #1f2a2b;
+      --muted: #677577;
+      --teal: #2d6f73;
+      --teal-deep: #1f5559;
+      --teal-soft: #d8e9e8;
+      --shadow: 0 20px 60px rgba(19, 34, 36, 0.14);
+      --radius: 28px;
+      --button-radius: 999px;
+      --transition: 700ms cubic-bezier(0.22, 1, 0.36, 1);
+      --max-width: 1280px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(45, 111, 115, 0.16), transparent 32%),
+        radial-gradient(circle at right center, rgba(45, 111, 115, 0.11), transparent 28%),
+        linear-gradient(180deg, #fbfaf8 0%, #f4f1ed 48%, #efebe6 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .page-shell {
+      position: relative;
+      min-height: 100vh;
+      isolation: isolate;
+    }
+
+    .parallax-layer {
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .parallax-image {
+      position: absolute;
+      inset: -8%;
+      background-image:
+        linear-gradient(rgba(10, 20, 22, 0.30), rgba(10, 20, 22, 0.18)),
+        url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1800&q=80');
+      background-size: cover;
+      background-position: center;
+      transform: translate3d(0, 0, 0) scale(1.08);
+      will-change: transform;
+      filter: saturate(0.92) contrast(1.02);
+    }
+
+    .parallax-glow {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.06)),
+        radial-gradient(circle at 20% 18%, rgba(255,255,255,0.34), transparent 20%),
+        radial-gradient(circle at 80% 22%, rgba(45,111,115,0.18), transparent 24%);
+      mix-blend-mode: screen;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 22px;
+    }
+
+    .hero {
+      width: min(100%, var(--max-width));
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .brand-panel,
+    .flow-panel {
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .brand-panel {
+      padding: 42px clamp(24px, 4vw, 56px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 540px;
+    }
+
+    .eyebrow {
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: var(--teal);
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-family: "Instrument Serif", Georgia, serif;
+      font-size: clamp(3rem, 7vw, 6.2rem);
+      line-height: 0.95;
+      font-weight: 400;
+      margin: 0 0 18px;
+      letter-spacing: -0.04em;
+    }
+
+    .accent-line {
+      display: inline-block;
+      color: var(--teal-deep);
+      font-style: italic;
+    }
+
+    .subcopy {
+      font-size: clamp(1rem, 1.4vw, 1.1rem);
+      line-height: 1.75;
+      color: var(--muted);
+      max-width: 34rem;
+      margin: 0 0 28px;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .tag {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.62);
+      border: 1px solid rgba(45,111,115,0.14);
+      font-size: 0.92rem;
+      color: #456063;
+    }
+
+    .flow-panel {
+      position: relative;
+      min-height: 540px;
+      padding: 28px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .panel-inner {
+      position: relative;
+      min-height: 420px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .question-set {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      align-content: center;
+      gap: 18px;
+      transition: transform var(--transition), opacity var(--transition), visibility var(--transition);
+    }
+
+    .question-set.is-hidden {
+      visibility: hidden;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .question-set.start-out {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .question-set.entering {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .set-heading {
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .set-title {
+      font-family: "Instrument Serif", Georgia, serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1;
+      margin: 0 0 10px;
+      font-weight: 400;
+      letter-spacing: -0.03em;
+    }
+
+    .set-text {
+      margin: 0 auto;
+      max-width: 28rem;
+      text-align: center;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .choice-button {
+      width: min(100%, 520px);
+      justify-self: center;
+      border: 0;
+      border-radius: var(--button-radius);
+      padding: 22px 26px;
+      cursor: pointer;
+      font: inherit;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      color: var(--text);
+      background: linear-gradient(180deg, rgba(255,255,255,0.94), rgba(250,250,249,0.86));
+      border: 1px solid rgba(31, 85, 89, 0.12);
+      box-shadow: 0 12px 30px rgba(31, 53, 56, 0.10);
+      transition: transform 250ms ease, box-shadow 250ms ease, background 250ms ease;
+      transform: translateY(0);
+    }
+
+    .choice-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 34px rgba(31, 53, 56, 0.12);
+      background: linear-gradient(180deg, rgba(255,255,255,1), rgba(247,248,247,0.92));
+    }
+
+    .choice-button:focus-visible {
+      outline: 3px solid rgba(45,111,115,0.26);
+      outline-offset: 3px;
+    }
+
+    .choice-label {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+      text-align: left;
+    }
+
+    .choice-title {
+      font-size: 1.02rem;
+    }
+
+    .choice-subtitle {
+      font-size: 0.84rem;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    .choice-icon {
+      min-width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--teal-soft);
+      color: var(--teal-deep);
+      font-size: 1.1rem;
+    }
+
+    .button-top.exit-up {
+      transform: translateY(-160%) scale(0.98);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .button-bottom.exit-down {
+      transform: translateY(160%) scale(0.98);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .button-top.pre-enter {
+      transform: translateY(-160%) scale(0.98);
+      opacity: 0;
+    }
+
+    .button-bottom.pre-enter {
+      transform: translateY(160%) scale(0.98);
+      opacity: 0;
+    }
+
+    .button-top.enter-in,
+    .button-bottom.enter-in {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+
+    .back-button {
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(31, 85, 89, 0.12);
+      background: rgba(255,255,255,0.68);
+      color: var(--teal-deep);
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-8px);
+      transition: 240ms ease;
+    }
+
+    .back-button.visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .footer-note {
+      margin-top: 22px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
+    @media (max-width: 980px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .brand-panel,
+      .flow-panel {
+        min-height: auto;
+      }
+
+      .panel-inner {
+        min-height: 380px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .page {
+        padding: 16px;
+      }
+
+      .brand-panel,
+      .flow-panel {
+        border-radius: 22px;
+      }
+
+      .brand-panel {
+        padding: 28px 20px;
+      }
+
+      .flow-panel {
+        padding: 18px;
+      }
+
+      .choice-button {
+        padding: 18px 18px;
+      }
+
+      .choice-icon {
+        min-width: 40px;
+        height: 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <div class="parallax-layer" aria-hidden="true">
+      <div class="parallax-image" id="parallaxImage"></div>
+      <div class="parallax-glow"></div>
+    </div>
+
+    <main class="page">
+      <section class="hero">
+        <div class="brand-panel">
+          <div class="eyebrow">Phoenix • Real Estate • Mortgage</div>
+          <h1>Hablemos<br><span class="accent-line">de Casas</span></h1>
+          <p class="subcopy">
+            Una experiencia simple, elegante y sin fricción para conectar con el profesional correcto.
+            Elige cómo quieres empezar y te llevamos al siguiente paso.
+          </p>
+
+          <div class="tag-row">
+            <span class="tag">Nuestra comunidad</span>
+            <span class="tag">Consejos reales</span>
+            <span class="tag">Compra con confianza</span>
+          </div>
+        </div>
+
+        <div class="flow-panel">
+          <button class="back-button" id="backButton" type="button">← Volver</button>
+
+          <div class="panel-inner">
+            <!-- Step 1 -->
+            <section class="question-set entering" id="step1" aria-label="Choose who to contact">
+              <div class="set-heading">
+                <h2 class="set-title">¿Con quién quieres conectar?</h2>
+                <p class="set-text">Selecciona una opción para continuar.</p>
+              </div>
+
+              <button class="choice-button button-top" type="button" data-next="agentStep" data-role="agent">
+                <span class="choice-label">
+                  <span class="choice-title">Contactar Agente</span>
+                  <span class="choice-subtitle">Explorar casas y estrategia de oferta</span>
+                </span>
+                <span class="choice-icon">↗</span>
+              </button>
+
+              <button class="choice-button button-bottom" type="button" data-next="lenderStep" data-role="lender">
+                <span class="choice-label">
+                  <span class="choice-title">Contactar Lender</span>
+                  <span class="choice-subtitle">Preaprobación, pagos y opciones de préstamo</span>
+                </span>
+                <span class="choice-icon">↗</span>
+              </button>
+            </section>
+
+            <!-- Step 2 Agent -->
+            <section class="question-set start-out is-hidden" id="agentStep" aria-label="Agent options">
+              <div class="set-heading">
+                <h2 class="set-title">Agente</h2>
+                <p class="set-text">¿Cómo te gustaría continuar?</p>
+              </div>
+
+              <button class="choice-button button-top pre-enter" type="button" onclick="window.location.href='https://YOUR-AGENT-QUESTIONS-LINK.com'">
+                <span class="choice-label">
+                  <span class="choice-title">Tengo algunas preguntas</span>
+                  <span class="choice-subtitle">Hablar primero y entender el proceso</span>
+                </span>
+                <span class="choice-icon">?</span>
+              </button>
+
+              <button class="choice-button button-bottom pre-enter" type="button" onclick="window.location.href='https://YOUR-AGENT-READY-LINK.com'">
+                <span class="choice-label">
+                  <span class="choice-title">Estoy listo para comprar ahora</span>
+                  <span class="choice-subtitle">Comenzar con búsqueda, tour o oferta</span>
+                </span>
+                <span class="choice-icon">✓</span>
+              </button>
+            </section>
+
+            <!-- Step 2 Lender -->
+            <section class="question-set start-out is-hidden" id="lenderStep" aria-label="Lender options">
+              <div class="set-heading">
+                <h2 class="set-title">Lender</h2>
+                <p class="set-text">¿Cómo te gustaría continuar?</p>
+              </div>
+
+              <button class="choice-button button-top pre-enter" type="button" onclick="window.location.href='https://YOUR-LENDER-QUESTIONS-LINK.com'">
+                <span class="choice-label">
+                  <span class="choice-title">Tengo algunas preguntas</span>
+                  <span class="choice-subtitle">Resolver dudas sobre pagos, crédito y opciones</span>
+                </span>
+                <span class="choice-icon">?</span>
+              </button>
+
+              <button class="choice-button button-bottom pre-enter" type="button" onclick="window.location.href='https://YOUR-LENDER-READY-LINK.com'">
+                <span class="choice-label">
+                  <span class="choice-title">Estoy listo para comprar ahora</span>
+                  <span class="choice-subtitle">Empezar con preaprobación o solicitud</span>
+                </span>
+                <span class="choice-icon">✓</span>
+              </button>
+            </section>
+          </div>
+
+          <div class="footer-note">Reemplaza los enlaces de ejemplo con tus links reales.</div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const parallaxImage = document.getElementById('parallaxImage');
+    const backButton = document.getElementById('backButton');
+    const step1 = document.getElementById('step1');
+    const agentStep = document.getElementById('agentStep');
+    const lenderStep = document.getElementById('lenderStep');
+
+    let activeStep = step1;
+
+    function updateParallax() {
+      const scrollY = window.scrollY;
+      const moveY = scrollY * -0.12;
+      const scale = 1.08 + Math.min(scrollY / 6000, 0.04);
+      parallaxImage.style.transform = `translate3d(0, ${moveY}px, 0) scale(${scale})`;
+    }
+
+    window.addEventListener('scroll', updateParallax, { passive: true });
+    updateParallax();
+
+    function animateOut(stepElement) {
+      const topButton = stepElement.querySelector('.button-top');
+      const bottomButton = stepElement.querySelector('.button-bottom');
+      topButton.classList.add('exit-up');
+      bottomButton.classList.add('exit-down');
+    }
+
+    function prepareIncoming(stepElement) {
+      stepElement.classList.remove('is-hidden', 'start-out');
+      stepElement.classList.add('entering');
+
+      const topButton = stepElement.querySelector('.button-top');
+      const bottomButton = stepElement.querySelector('.button-bottom');
+
+      topButton.classList.add('pre-enter');
+      bottomButton.classList.add('pre-enter');
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          topButton.classList.add('enter-in');
+          bottomButton.classList.add('enter-in');
+        });
+      });
+    }
+
+    function cleanupOutgoing(stepElement) {
+      stepElement.classList.add('is-hidden');
+      stepElement.classList.remove('entering');
+
+      const topButton = stepElement.querySelector('.button-top');
+      const bottomButton = stepElement.querySelector('.button-bottom');
+      topButton.classList.remove('exit-up', 'enter-in');
+      bottomButton.classList.remove('exit-down', 'enter-in');
+    }
+
+    function showStep(stepId) {
+      const nextStep = document.getElementById(stepId);
+      animateOut(activeStep);
+
+      setTimeout(() => {
+        cleanupOutgoing(activeStep);
+        prepareIncoming(nextStep);
+        activeStep = nextStep;
+        backButton.classList.add('visible');
+      }, 520);
+    }
+
+    function returnHome() {
+      if (activeStep === step1) return;
+
+      animateOut(activeStep);
+
+      setTimeout(() => {
+        cleanupOutgoing(activeStep);
+        prepareIncoming(step1);
+        activeStep = step1;
+        backButton.classList.remove('visible');
+      }, 520);
+    }
+
+    document.querySelectorAll('#step1 [data-next]').forEach(button => {
+      button.addEventListener('click', () => {
+        showStep(button.dataset.next);
+      });
+    });
+
+    backButton.addEventListener('click', returnHome);
+  </script>
+</body>
+</html>
